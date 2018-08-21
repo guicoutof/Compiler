@@ -54,11 +54,19 @@ public class Lexico {
         return m.matches();
     }
     
-    public boolean isIdentifier (char letter) {
+    public boolean isLetter (char letter) {
         String fonte = ""+letter;
-        String regra = "[a-zA-Z]([a-zA-Z]|[0-9])*";
+        String regra = "[a-zA-Z]";
         Pattern p = Pattern.compile(regra);
         Matcher m = p.matcher(fonte);
+        
+        return m.matches();
+    }
+    
+    public boolean isIdentifier (String word) {
+        String regra = "[a-zA-Z]([a-zA-Z]|[0-9])*";
+        Pattern p = Pattern.compile(regra);
+        Matcher m = p.matcher(word);
         
         return m.matches();
     }
@@ -97,7 +105,24 @@ public class Lexico {
                         }
                     }
                 }else   
-
+                if(isLetter(atual)){
+                    String word = ""+atual;
+                    char prox = SplitLanguage[i].charAt(j+1);
+                    if(isLetter(prox) || isNumber(prox)){
+                        word += prox;
+                    }else{
+                        if(isKeyWord(word)){
+                            Token token = new Token(word, "PALAVRA_RESERVADA",i+1,j+1);
+                            tokens.add(token);
+                        }else if(isIdentifier(word)){
+                            Token token = new Token(word, "IDENTIFICADOR",i+1,j+1);
+                            tokens.add(token);
+                        }else {
+                            Token token = new Token(word, "ERRO_IDENTIFICADOR",i+1,j+1);
+                            tokens.add(token);
+                        }
+                    }
+                }else
                 if(atual == '+'){
                     Token token = new Token("+", "OPSOMA",i+1,j+1);
                     tokens.add(token);
