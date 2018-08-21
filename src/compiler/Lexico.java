@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
  */
 public class Lexico {
     ArrayList<Token> tokens = new ArrayList();
+    ArrayList<String> keyWords = new ArrayList();
     private String Language;
     private String[] SplitLanguage;
     
@@ -21,6 +22,27 @@ public class Lexico {
     public Lexico(String Language) {
         this.Language = Language;
         this.SplitLanguage = Language.split("\n");
+        String token;
+        token = "program";
+        keyWords.add(token);
+        token = "procedure";
+        keyWords.add(token);
+        token = "var";
+        keyWords.add(token);
+        token = "begin";
+        keyWords.add(token);
+        token = "end";
+        keyWords.add(token);
+        token = "if";
+        keyWords.add(token);
+        token = "then";
+        keyWords.add(token);
+        token = "else";
+        keyWords.add(token);
+        token = "while";
+        keyWords.add(token);
+        token = "do";
+        keyWords.add(token);
     }
     
     public boolean isNumber (char number) {
@@ -30,6 +52,23 @@ public class Lexico {
         Matcher m = p.matcher(fonte);
         
         return m.matches();
+    }
+    
+    public boolean isIdentifier (char letter) {
+        String fonte = ""+letter;
+        String regra = "[a-zA-Z]([a-zA-Z]|[0-9])*";
+        Pattern p = Pattern.compile(regra);
+        Matcher m = p.matcher(fonte);
+        
+        return m.matches();
+    }
+    
+    public boolean isKeyWord(String word) {
+        for(String t:keyWords){
+            if(t.equals(word))
+                return true;
+        }
+        return false;
     }
     
     public ArrayList analisar(){
@@ -95,7 +134,12 @@ public class Lexico {
 
                 }
                 else
-                if(atual == '\n'){
+                if(atual == '/'){
+                    char prox = SplitLanguage[i].charAt(j+1);
+                    if(prox == '/'){
+                        i++;
+                        j=0;//proxima linha
+                    }
 
                 }
                 else{
