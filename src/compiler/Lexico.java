@@ -81,6 +81,7 @@ public class Lexico {
     
     public ArrayList analisar(){
         String number = "";
+        String word = "";
         int fechamento = 0;
         for(int i=0;i<SplitLanguage.length;i++){
             for(int j=0;j<SplitLanguage[i].length()-1;j++){
@@ -95,7 +96,7 @@ public class Lexico {
                     }   else {
                         if(prox == '.'){
                             number += atual + ".";
-                            i++;
+                            j++;
                         }
                         else {
                             number += atual;
@@ -106,22 +107,29 @@ public class Lexico {
                     }
                 }else   
                 if(isLetter(atual)){
-                    String word = ""+atual;
+                     word +=atual;
                     char prox = SplitLanguage[i].charAt(j+1);
-                    if(isLetter(prox) || isNumber(prox)){
+                    while((isLetter(prox) || isNumber(prox)) && j<SplitLanguage[i].length()-1){
                         word += prox;
-                    }else{
+                        j++;
+                        prox = SplitLanguage[i].charAt(j+1);
+                        
+                    }
+                    
                         if(isKeyWord(word)){
                             Token token = new Token(word, "PALAVRA_RESERVADA",i+1,j+1);
                             tokens.add(token);
+                            word = "";
                         }else if(isIdentifier(word)){
                             Token token = new Token(word, "IDENTIFICADOR",i+1,j+1);
                             tokens.add(token);
+                            word = "";
                         }else {
                             Token token = new Token(word, "ERRO_IDENTIFICADOR",i+1,j+1);
                             tokens.add(token);
+                            word = "";
                         }
-                    }
+                    
                 }else
                 if(atual == '+'){
                     Token token = new Token("+", "OPSOMA",i+1,j+1);
