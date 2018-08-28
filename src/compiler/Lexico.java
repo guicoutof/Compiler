@@ -15,12 +15,12 @@ import java.util.regex.Pattern;
 public class Lexico {
     ArrayList<Token> tokens = new ArrayList();
     ArrayList<String> keyWords = new ArrayList();
-    private String Language;
+//    private String Language;
     private String[] SplitLanguage;
     
 
     public Lexico(String Language) {
-        this.Language = Language;
+//        this.Language = Language;
         this.SplitLanguage = Language.split("\n");
         String token;
         token = "program";
@@ -42,6 +42,8 @@ public class Lexico {
         token = "while";
         keyWords.add(token);
         token = "do";
+        keyWords.add(token);
+        token = "not";
         keyWords.add(token);
     }
     
@@ -79,33 +81,47 @@ public class Lexico {
         return false;
     }
     
+    
+    
     public ArrayList analisar(){
         String number = "";
         String word = "";
+        int aux = 0;
         int fechamento = 0;
         for(int i=0;i<SplitLanguage.length;i++){
             for(int j=0;j<SplitLanguage[i].length()-1;j++){
-                
+                aux = 0;
                 char atual = SplitLanguage[i].charAt(j);
 
-                /* verifica numero */
+                //           verifica numero 
                 if(isNumber(atual)){
                     char prox = SplitLanguage[i].charAt(j+1);
-                    if(isNumber(prox)){
-                       number += atual;
-                    }   else {
-                        if(prox == '.'){
-                            number += atual + ".";
-                            j++;
-                        }
-                        else {
-                            number += atual;
-                            Token token = new Token(number, "NUM",i+1,j+1);
-                            tokens.add(token);
-                            number = "";
-                        }
+                    number += atual;
+                    while((isNumber(prox) || prox == '.' )&& j<SplitLanguage[i].length()-1){
+                         number += prox;
+                         if(prox == '.'){
+                             //number += ".";
+                             //j++;
+                             aux = 1;//numero real
+                         }
+                         j++;
+                         prox = SplitLanguage[i].charAt(j+1);
                     }
-                }else   
+                    if(aux == 0){
+                        Token token = new Token(number, "INTEIRO",i+1,j+1);
+                        tokens.add(token);
+                        number = "";
+                    }else{
+                        Token token = new Token(number, "REAL",i+1,j+1);
+                        tokens.add(token);
+                        number = "";
+                    }
+                    
+                
+                    
+                }else  
+                    
+                //     verifica identificador   */
                 if(isLetter(atual)){
                      word +=atual;
                     char prox = SplitLanguage[i].charAt(j+1);
@@ -131,6 +147,8 @@ public class Lexico {
                         }
                     
                 }else
+                    
+                //          VERIFICA OPERADOR       */
                 if(atual == '+'){
                     Token token = new Token("+", "OPSOMA",i+1,j+1);
                     tokens.add(token);
@@ -147,6 +165,56 @@ public class Lexico {
                     Token token = new Token("/", "OPDIV",i+1,j+1);
                     tokens.add(token);
                 }else
+                    
+                    //      CARACTER ESPECIAL
+                if(atual == '='){
+                    Token token = new Token("=", "IGUALDADE",i+1,j+1);
+                    tokens.add(token);
+                }else
+                if(atual == '>'){
+                    char prox = SplitLanguage[i].charAt(j+1);
+                    if(prox == '='){
+                        Token token = new Token(">=", "MAIOR_IGUAL",i+1,j+1);
+                        tokens.add(token);
+                        j++;
+                    }else{
+                        Token token = new Token(">", "MAIOR",i+1,j+1);
+                        tokens.add(token);                        
+                    }
+                    
+                }else
+                if(atual == '<'){
+                    char prox = SplitLanguage[i].charAt(j+1);
+                    if(prox == '='){
+                        j++;
+                        Token token = new Token("<=", "MENOR_IGUAL",i+1,j+1);
+                        tokens.add(token);
+                    }else
+                        if(prox == '>'){
+                            j++;
+                            Token token = new Token("<>", "DIAMANTE",i+1,j+1);
+                            tokens.add(token);
+                        }                    
+                        else{
+                        Token token = new Token("<", "MENOR",i+1,j+1);
+                        tokens.add(token);                        
+                        }
+                }else
+                if(atual == ','){
+                    
+                }else
+                if(atual == ';'){
+                    
+                }else
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                //        VERIFICA PARENTESES         */
                 if(atual == '('){
                     Token token = new Token("(", "AP",i+1,j+1);
                     tokens.add(token);
@@ -157,6 +225,9 @@ public class Lexico {
                     tokens.add(token);
                     fechamento--;
                 }else
+                    
+                    
+                //          VERIFICA ESPACOS        */
                 if(atual == ' '){
 
                 }else
@@ -167,14 +238,28 @@ public class Lexico {
 
                 }
                 else
+                    
+                //      COMENTARIO    
                 if(atual == '/'){
                     char prox = SplitLanguage[i].charAt(j+1);
                     if(prox == '/'){
                         i++;
                         j=0;//proxima linha
                     }
-
+                }else
+                if(atual == '{'){
+                    char prox = SplitLanguage[i].charAt(j+1);
+                    while(prox != '}'){
+                        j++;
+                        if(j==(SplitLanguage[i].length()-1)){
+                            i++;
+                            j=0;
+                        }
+                        prox = SplitLanguage[i].charAt(j+1);
+                    }
+                    j++;
                 }
+                //          ERRO
                 else{
                     Token token = new Token("ERRO", "CARACTER DESCONHECIDO",i,j+1);
                     tokens.add(token);
@@ -182,10 +267,10 @@ public class Lexico {
             }    
         }
         if(fechamento>0){
-            Token token = new Token("ERRO", "FECHAR PARENTESES",SplitLanguage.length,SplitLanguage[SplitLanguage.length-1].length());
+            Token token = new Token("ERRO", "FECHAR PARENTESES OU BLOCO",SplitLanguage.length,SplitLanguage[SplitLanguage.length-1].length());
             tokens.add(token);}
         if(fechamento<0){
-            Token token = new Token("ERRO", "ABRIR PARENTESES",SplitLanguage.length,SplitLanguage[SplitLanguage.length-1].length());
+            Token token = new Token("ERRO", "ABRIR PARENTESES OU BLOCO",SplitLanguage.length,SplitLanguage[SplitLanguage.length-1].length());
             tokens.add(token);
         }
 
