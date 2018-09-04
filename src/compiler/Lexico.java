@@ -53,6 +53,10 @@ public class Lexico {
         keyWords.add(token);
         token = "not";
         keyWords.add(token);
+        token = "read";
+        keyWords.add(token);
+        token = "write";
+        keyWords.add(token);
     }
     
     public boolean isNumber (char number) {
@@ -97,6 +101,7 @@ public class Lexico {
         int count =0,aux =0,fechamento = 0;
         for(int i=0;i<SplitLanguage.length;i++){
             for(int j=0;j<SplitLanguage[i].length()-1;j++){
+                count =0;
                 aux = 0;
                 char atual = SplitLanguage[i].charAt(j);
 
