@@ -15,10 +15,18 @@ import java.util.regex.Pattern;
 public class Lexico {
     ArrayList<Token> tokens = new ArrayList();
     ArrayList<String> keyWords = new ArrayList();
+    private int limiteVariavel = 15;
 //    private String Language;
     private String[] SplitLanguage;
-    
 
+    public int getLimiteVariavel() {
+        return limiteVariavel;
+    }
+
+    public void setLimiteVariavel(int limiteVariavel) {
+        this.limiteVariavel = limiteVariavel;
+    }
+    
     public Lexico(String Language) {
 //        this.Language = Language;
         this.SplitLanguage = Language.split("\n");
@@ -86,8 +94,7 @@ public class Lexico {
     public ArrayList analisar(){
         String number = "";
         String word = "";
-        int aux = 0;
-        int fechamento = 0;
+        int count =0,aux =0,fechamento = 0;
         for(int i=0;i<SplitLanguage.length;i++){
             for(int j=0;j<SplitLanguage[i].length()-1;j++){
                 aux = 0;
@@ -97,6 +104,7 @@ public class Lexico {
                 if(isNumber(atual)){
                     char prox = SplitLanguage[i].charAt(j+1);
                     number += atual;
+                    count++;
                     while((isNumber(prox) || prox == '.' )&& j<SplitLanguage[i].length()-1){
                          number += prox;
                          if(prox == '.'){
@@ -106,15 +114,22 @@ public class Lexico {
                          }
                          j++;
                          prox = SplitLanguage[i].charAt(j+1);
+                         count++;
                     }
-                    if(aux == 0){
-                        Token token = new Token(number, "INTEIRO",i+1,j+1);
-                        tokens.add(token);
-                        number = "";
+                    if(count<limiteVariavel){
+                        if(aux == 0){
+                            Token token = new Token(number, "INTEIRO",i+1,j+1);
+                            tokens.add(token);
+                            number = "";
+                        }else{
+                            Token token = new Token(number, "REAL",i+1,j+1);
+                            tokens.add(token);
+                            number = "";
+                        }
                     }else{
-                        Token token = new Token(number, "REAL",i+1,j+1);
-                        tokens.add(token);
-                        number = "";
+                        Token token = new Token(number, "ERRO, NUMERO MUITO GRANDE",i+1,j+1);
+                            tokens.add(token);
+                            number = "";
                     }
                     
                 
@@ -125,13 +140,14 @@ public class Lexico {
                 if(isLetter(atual)){
                      word +=atual;
                     char prox = SplitLanguage[i].charAt(j+1);
+                    count++;
                     while((isLetter(prox) || isNumber(prox)) && j<SplitLanguage[i].length()-1){
                         word += prox;
                         j++;
                         prox = SplitLanguage[i].charAt(j+1);
-                        
+                        count++;
                     }
-                    
+                    if(count<limiteVariavel){
                         if(isKeyWord(word)){
                             Token token = new Token(word, "PALAVRA_RESERVADA",i+1,j+1);
                             tokens.add(token);
@@ -145,6 +161,11 @@ public class Lexico {
                             tokens.add(token);
                             word = "";
                         }
+                    }else{
+                        Token token = new Token(word, "ERRO, VARIAVEL MUITO GRANDE",i+1,j+1);
+                        tokens.add(token);
+                        word = "";
+                    }
                     
                 }else
                     
