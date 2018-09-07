@@ -57,6 +57,16 @@ public class Lexico {
         keyWords.add(token);
         token = "write";
         keyWords.add(token);
+        token = "int";
+        keyWords.add(token);
+        token = "boolean";
+        keyWords.add(token);
+        token = "float";
+        keyWords.add(token);
+        token = "char";
+        keyWords.add(token);
+        token = "proc";
+        keyWords.add(token);
     }
     
     public boolean isNumber (char number) {
@@ -105,7 +115,7 @@ public class Lexico {
                 aux = 0;
                 char atual = SplitLanguage[i].charAt(j);
 
-                //           verifica numero 
+                //           VERIFICA NUMERO
                 if(isNumber(atual)){
                     char prox = SplitLanguage[i].charAt(j+1);
                     number += atual;
@@ -141,7 +151,7 @@ public class Lexico {
                     
                 }else  
                     
-                //     verifica identificador   */
+                //     VERIFICA IDENTIFICADOR   */
                 if(isLetter(atual)){
                      word +=atual;
                     char prox = SplitLanguage[i].charAt(j+1);
@@ -193,6 +203,17 @@ public class Lexico {
                 }else
                     
                     //      CARACTER ESPECIAL
+                if(atual == ':'){
+                    char prox = SplitLanguage[i].charAt(j+1);
+                    if(prox == '='){
+                        j++;
+                        Token token = new Token(":=", "ATRIBUICAO",i+1,j+1);
+                        tokens.add(token);
+                    }else{
+                        Token token = new Token(":", "ALGUMA COISA",i+1,j+1);
+                        tokens.add(token);
+                    }    
+                }else
                 if(atual == '='){
                     Token token = new Token("=", "IGUALDADE",i+1,j+1);
                     tokens.add(token);
@@ -226,19 +247,6 @@ public class Lexico {
                         tokens.add(token);                        
                         }
                 }else
-                if(atual == ','){
-                    
-                }else
-                if(atual == ';'){
-                    
-                }else
-                
-                    
-                    
-                    
-                    
-                    
-                    
                     
                 //        VERIFICA PARENTESES         */
                 if(atual == '('){
@@ -255,15 +263,24 @@ public class Lexico {
                     
                 //          VERIFICA ESPACOS        */
                 if(atual == ' '){
-
                 }else
-                if(atual == ';'){
-
+                if(atual == '\t'){
                 }else
                 if(atual == '\r'){
-
                 }
                 else
+                if(atual == ','){
+                }else
+                if(atual == ';'){
+                }else
+                if(atual == '\n'){
+                }else
+                    
+                    
+                if(atual == '.'){
+                    Token token = new Token(".", "FINAL",i+1,j+1);
+                    tokens.add(token);
+                }else
                     
                 //      COMENTARIO    
                 if(atual == '/'){
@@ -285,9 +302,10 @@ public class Lexico {
                     }
                     j++;
                 }
+                
                 //          ERRO
                 else{
-                    Token token = new Token("ERRO", "CARACTER DESCONHECIDO",i,j+1);
+                    Token token = new Token(""+atual, "ERRO CARACTER DESCONHECIDO",i,j+1);
                     tokens.add(token);
                 }  
             }    
