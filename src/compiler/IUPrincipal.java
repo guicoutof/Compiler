@@ -220,9 +220,17 @@ public class IUPrincipal extends javax.swing.JFrame {
         }
         
         //      SINTATICO
+        ArrayList<String> msg;
         Sintatico sintatico = new Sintatico(tokens);
         sintatico.analisar();
+        msg = sintatico.getMsg();
         
+        model = (DefaultTableModel) TabelaSintatico.getModel();
+        model.setRowCount(0);
+        
+        for(int i=0;i<msg.size();i++){
+            model.addRow(new String[]{msg.get(i)});
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed

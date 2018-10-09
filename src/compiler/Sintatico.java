@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 public class Sintatico {
     private ArrayList<Token> tokens;
     private ArrayList<Token> fila;
+    ArrayList<String> msg = new ArrayList();
 
     public Sintatico() {
     }
@@ -23,6 +24,10 @@ public class Sintatico {
     public Sintatico(ArrayList tokens) {
     this.tokens = tokens;
     this.fila = tokens;
+    }
+
+    public ArrayList<String> getMsg() {
+        return msg;
     }
     
     public Token getNextToken(){
@@ -47,7 +52,6 @@ public class Sintatico {
     }
     
     public void analisar(){
-        
         Token token = getNextToken();
         if(token.getLexema().equals("program")){
             remove();
@@ -57,41 +61,41 @@ public class Sintatico {
                 remove();
                 A();
             }else{
-                System.out.println("Erro falta de ;");
+                msg.add("Erro falta de ;");
                 A();
             }
         }else{
-            System.out.println("Erro falta o token program");
+            msg.add("Erro falta o token program");
             I();
             token = getNextToken();
             if(token.getLexema().equals(";")){
                 remove();
                 A();
             }else{
-                System.out.println("Erro falta de ;");
+                msg.add("Erro falta de ;");
                 A();
             }
         }
     }
     
 
-    public void I(){
+    private void I(){
         Token token = getNextToken();
 
         if(token.getToken().equals("IDENTIFICADOR")){
             remove();
             return;
         }
-        else System.out.println("Erro falta de identificador");
+        else msg.add("Erro falta de identificador");
     }
     
-    public void A(){
+    private void A(){
         B();
         C();
         D();
     }
     
-    public void B(){
+    private void B(){
         Token token = getNextToken();
         if(token.getLexema().equals("int") || token.getLexema().equals("real") || token.getLexema().equals("boolean") || token.getLexema().equals("char")){
             remove();
@@ -102,7 +106,7 @@ public class Sintatico {
         return;
     }
     
-    public void E(){
+    private void E(){
         Token token = getNextToken();
         if(token.getLexema().equals(",")){
             remove();
@@ -111,7 +115,7 @@ public class Sintatico {
         }//tratar erro
     }
     
-    public void C(){
+    private void C(){
         Token token = getNextToken();
         if(token.getLexema().equals("procedure")){
             remove();
@@ -127,12 +131,12 @@ public class Sintatico {
                     C();
                 }// tratar erro
             }else{
-                System.out.println("Erro, falta ;");
+               msg.add("Erro, falta ;");
             }
         }
     }
     
-    public void F(){
+    private void F(){
         Token token = getNextToken();
         if(token.getLexema().equals("(")){
             remove();
@@ -145,7 +149,7 @@ public class Sintatico {
         }
     }
     
-    public void G(){
+    private void G(){
         Token token = getNextToken();
         if(token.getLexema().equals("[")){
             remove();
@@ -168,14 +172,14 @@ public class Sintatico {
         }
     }
     
-    public void H(){
+    private void H(){
         Token token = getNextToken();
         if(token.getLexema().equals("int")||token.getLexema().equals("real")||token.getLexema().equals("boolean")||token.getLexema().equals("char")){
             remove();
         }
     }
     
-    public void K(){
+    private void K(){
         Token token = getNextToken();
         if(token.getLexema().equals(";")){
             remove();
@@ -183,7 +187,7 @@ public class Sintatico {
         }
     }
     
-    public void D(){
+    private void D(){
         Token token = getNextToken();
         if(token.getLexema().equals("begin")){
             remove();
@@ -196,7 +200,7 @@ public class Sintatico {
         }
     }
     
-    public void L(){
+    private void L(){
         Token token = getNextToken();
         if(token.getLexema().equals("if")){
             remove();
@@ -210,7 +214,7 @@ public class Sintatico {
             token = getNextToken();
             if(token.getLexema().equals("do")){
                 remove();
-            }else System.out.println("Erro falta do");
+            }else msg.add("Erro falta do");
             L();
             R();
         }else if(token.getLexema().equals("begin")){
@@ -220,7 +224,7 @@ public class Sintatico {
             token = getNextToken();
             if(token.getLexema().equals("end")){
                 remove();
-            }else System.out.println("Erro falta end");
+            }else msg.add("Erro falta end");
             R();
         }else{//tratar erro
             I();
@@ -229,7 +233,7 @@ public class Sintatico {
             }
     }
     
-    public void M(){
+    private void M(){
         Token token = getNextToken();
         if(token.getLexema().equals("(")){
             remove();
@@ -251,11 +255,11 @@ public class Sintatico {
         }
     }
     
-    public void O(){
+    private void O(){
         P();
     }
     
-    public void Q(){
+    private void Q(){
         Token token = getNextToken();
         if(token.getLexema().equals("else")){
             remove();
@@ -263,7 +267,7 @@ public class Sintatico {
         }
     }
     
-    public void R(){
+    private void R(){
         Token token = getNextToken();
         if(token.getLexema().equals(";")){
             remove();
@@ -271,12 +275,12 @@ public class Sintatico {
         }
     }
     
-    public void N(){
+    private void N(){
         P();
         J();
     }
     
-    public void J(){
+    private void J(){
         Token token = getNextToken();
         if(token.getLexema().equals(",")){
             remove();
@@ -284,19 +288,19 @@ public class Sintatico {
         }
     }
     
-    public void P(){
+    private void P(){
         T();
         U();
     }
     
-    public void T(){
+    private void T(){
         Token token = getNextToken();
         if(token.getLexema().equals("+") || token.getLexema().equals("-")){
             remove();
         }
     }
     
-    public void U(){
+    private void U(){
         Token token = getNextToken();
         if(token.getLexema().equals("(")){
             remove();
@@ -331,7 +335,7 @@ public class Sintatico {
         }
     }
     
-    public void Z(){
+    private void Z(){
         Token token = getNextToken();
         if(token.getToken().equals("INTEIRO") || token.getToken().equals("REAL")){
             remove();
@@ -339,7 +343,7 @@ public class Sintatico {
         }
     }
     
-    public void W(){
+    private void W(){
         Token token = getNextToken();
         if(token.getLexema().equals(".")){
             remove();
@@ -348,7 +352,7 @@ public class Sintatico {
         Z();
     }
     
-    public void V(){
+    private void V(){
         Token token = getNextToken();
         if(token.getToken().equals("*") || token.getToken().equals("div") || token.getToken().equals("and")){
             remove();
@@ -356,7 +360,7 @@ public class Sintatico {
         }
     }
     
-    public void X(){
+    private void X(){
         Token token = getNextToken();
         if(token.getToken().equals("+") || token.getToken().equals("-") || token.getToken().equals("or")){
             remove();
@@ -364,7 +368,7 @@ public class Sintatico {
         }
     }
     
-    public void Y(){
+    private void Y(){
         Token token = getNextToken();
         if(token.getToken().equals("=")||token.getToken().equals("<>")||token.getToken().equals("<")
         ||token.getToken().equals("<=")||token.getToken().equals(">")||token.getToken().equals(">=")){
@@ -373,12 +377,14 @@ public class Sintatico {
         }
     }
     
-    public void PP(){
+    private void PP(){
+        msg.add("CONSTRUÍDO COM SUCESSO ");
         Token token = getNextToken();
         if(token.getToken().equals(",")){
             remove();
-            P();
+            P(); 
         }
+        msg.add("CONSTRUÍDO COM SUCESSO ");
     }
     
     
