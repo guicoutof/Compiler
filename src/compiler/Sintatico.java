@@ -6,6 +6,7 @@
 package compiler;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,6 +78,7 @@ public class Sintatico {
                 A();
             }
         }
+        msg.add("CONSTRUIDO COM SUCESSO");
     }
     
 
@@ -379,13 +381,13 @@ public class Sintatico {
     }
     
     private void PP(){
-        msg.add("CONSTRUÍDO COM SUCESSO ");
+        //msg.add("CONSTRUÍDO COM SUCESSO ");
         Token token = getNextToken();
         if(token.getToken().equals(",")){
             remove();
             P(); 
         }
-        msg.add("CONSTRUÍDO COM SUCESSO ");
+        //msg.add("CONSTRUÍDO COM SUCESSO ");
     }
     
     
