@@ -10,10 +10,10 @@ package compiler;
  * @author Guilherme
  */
 public class Token {
-    private String lexema;
-    private String token;
-    private int linha;
-    private int coluna;
+    private String lexema = "";
+    private String token = "";
+    private int linha = 0;
+    private int coluna = 0;
     
     public Token(String lexema, String token,int linha,int coluna) {
         this.lexema = lexema;
@@ -21,6 +21,10 @@ public class Token {
         this.linha = linha;
         this.coluna = coluna;
 
+    }
+
+    Token() {
+        
     }
 
     public String getLexema() {

@@ -32,10 +32,13 @@ public class Sintatico {
     }
     
     public Token getNextToken(){
-        Token t = fila.get(0);
-        if(t != null)return t;
+        Token t = new Token();
+        if(!fila.isEmpty()){
+            t = fila.get(0);
+            return t;
+        }
         //fila.remove(0);
-        return null;
+        return t;
     }
     
     public void remove(){
