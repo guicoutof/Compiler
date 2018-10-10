@@ -210,8 +210,8 @@ public class IUPrincipal extends javax.swing.JFrame {
         tokens = lexico.analisar();
         
         //      IMPRESSAO TABELA
-        model.setRowCount(0);
         model = (DefaultTableModel) TableLexico.getModel();
+        model.setRowCount(0);
         
         for(int i=0;i<tokens.size();i++){
             Token atual = tokens.get(i);
