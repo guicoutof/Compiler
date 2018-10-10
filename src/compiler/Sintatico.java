@@ -40,6 +40,7 @@ public class Sintatico {
     
     public void remove(){
         //Token t = fila.get(0);
+        if(!fila.isEmpty())
         fila.remove(0);
         return ;
     }
