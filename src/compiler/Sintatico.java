@@ -203,20 +203,127 @@ public class Sintatico {
                         remove();
                         H();
                         K();
+                    }else{//quarto if 
+                        msg.add("Erro, falta : proximo a linha "+token.getLinha());
+                        H();
+                        K();
+                    }
+                }else{//terceiro if
+                    msg.add("Erro, falta ] proximo a linha "+token.getLinha());
+                    I();
+                    E();
+
+                    if(token.getLexema().equals(":")){
+                        remove();
+                        H();
+                        K();
                     }else{
                         msg.add("Erro, falta : proximo a linha "+token.getLinha());
                         H();
                         K();
                     }
+                }
+            }else{// segundo if
+                msg.add("Erro, falta var proximo a linha "+token.getLinha());
+                if(token.getLexema().equals("]")){
+                    remove();
+                    I();
+                    E();
+                    token = getNextToken();
+                    if(emptyToken(token))return;
+                    if(token.getLexema().equals(":")){
+                        remove();
+                        H();
+                        K();
+                    }else{ 
+                        msg.add("Erro, falta : proximo a linha "+token.getLinha());
+                        H();
+                        K();
+                    }
                 }else{
-                msg.add("Erro, falta ] proximo a linha "+token.getLinha());
+                    msg.add("Erro, falta ] proximo a linha "+token.getLinha());
+                    I();
+                    E();
+                    if(token.getLexema().equals(":")){
+                        remove();
+                        H();
+                        K();
+                    }else{
+                        msg.add("Erro, falta : proximo a linha "+token.getLinha());
+                        H();
+                        K();
+                    }
+                }
             }
+        }else{// primeiro if
+            msg.add("Erro, falta [ proximo a linha "+token.getLinha());
+            if(token.getLexema().equals("var")){
+                remove();
+                token = getNextToken();
+                if(emptyToken(token))return;
+                if(token.getLexema().equals("]")){
+                    remove();
+                    I();
+                    E();
+                    token = getNextToken();
+                    if(emptyToken(token))return;
+                    if(token.getLexema().equals(":")){
+                        remove();
+                        H();
+                        K();
+                    }else{ 
+                        msg.add("Erro, falta : proximo a linha "+token.getLinha());
+                        H();
+                        K();
+                    }
+                }else{
+                    msg.add("Erro, falta ] proximo a linha "+token.getLinha());
+                    I();
+                    E();
+
+                    if(token.getLexema().equals(":")){
+                        remove();
+                        H();
+                        K();
+                    }else{
+                        msg.add("Erro, falta : proximo a linha "+token.getLinha());
+                        H();
+                        K();
+                    }
+                }
             }else{
                 msg.add("Erro, falta var proximo a linha "+token.getLinha());
+                if(token.getLexema().equals("]")){
+                    remove();
+                    I();
+                    E();
+                    token = getNextToken();
+                    if(emptyToken(token))return;
+                    if(token.getLexema().equals(":")){
+                        remove();
+                        H();
+                        K();
+                    }else{ 
+                        msg.add("Erro, falta : proximo a linha "+token.getLinha());
+                        H();
+                        K();
+                    }
+                }else{
+                    msg.add("Erro, falta ] proximo a linha "+token.getLinha());
+                    I();
+                    E();
+                    if(token.getLexema().equals(":")){
+                        remove();
+                        H();
+                        K();
+                    }else{
+                        msg.add("Erro, falta : proximo a linha "+token.getLinha());
+                        H();
+                        K();
+                    }
+                }
             }
-        }else{
-            msg.add("Erro, falta [ proximo a linha "+token.getLinha());
-        }
+        }//end erro 1
     }
     
     private void H(){
@@ -224,6 +331,8 @@ public class Sintatico {
         if(emptyToken(token))return;
         if(token.getLexema().equals("int")||token.getLexema().equals("real")||token.getLexema().equals("boolean")||token.getLexema().equals("char")){
             remove();
+        }else{
+            msg.add("Erro, falta declarar tipo proximo a linha "+token.getLinha());
         }
     }
     
@@ -247,6 +356,17 @@ public class Sintatico {
             if(token.getLexema().equals("end")){
                 remove();
                 return;
+            }else{
+                msg.add("Erro, falta end proximo a linha "+token.getLinha());
+            }
+        }else{
+            msg.add("Erro, falta begin proximo a linha "+token.getLinha());
+            L();
+            if(token.getLexema().equals("end")){
+                remove();
+                return;
+            }else{
+                msg.add("Erro, falta end proximo a linha "+token.getLinha());
             }
         }
     }
@@ -280,7 +400,7 @@ public class Sintatico {
                 remove();
             }else msg.add("Erro falta end");
             R();
-        }else{//tratar erro
+        }else{
             I();
             M();
             R();
@@ -297,7 +417,8 @@ public class Sintatico {
             if(emptyToken(token))return;
             if(token.getLexema().equals(")")){
                 remove();
-            }
+            }else msg.add("Erro, falta ) proximo a linha "+token.getLinha());  
+            
         }else{
             O();
             if(token.getLexema().equals(":")){
@@ -307,6 +428,18 @@ public class Sintatico {
                 if(token.getLexema().equals("=")){
                     remove();
                     P();
+                }else{
+                     msg.add("Erro, falta = proximo a linha "+token.getLinha());
+                     P();
+                }
+            }else{
+                 msg.add("Erro, falta : proximo a linha "+token.getLinha());
+                 if(token.getLexema().equals("=")){
+                    remove();
+                    P();
+                }else{
+                     msg.add("Erro, falta = proximo a linha "+token.getLinha());
+                     P();
                 }
             }
         }
@@ -369,7 +502,7 @@ public class Sintatico {
             P();
             if(token.getLexema().equals(")")){
                 remove();
-            }
+            }else msg.add("Erro, falta ) proximo a linha "+token.getLinha());
             V();
             X();
             Y();
@@ -387,13 +520,15 @@ public class Sintatico {
             X();
             Y();
             PP();
-        }else{
-            I();
+        }else{ if(token.getToken().equals("IDENTIFICADOR")){
+            I();//gambiarra
             O();
             V();
             X();
             Y();
             PP();
+        }
+
         }
     }
     
@@ -402,19 +537,21 @@ public class Sintatico {
         if(emptyToken(token))return;
         if(token.getToken().equals("INTEIRO") || token.getToken().equals("REAL")){
             remove();
-            W();
+            //W();
+        }else{
+            msg.add("Erro proximo a linha "+token.getLinha());
+            //W();
         }
     }
     
-    private void W(){
-        Token token = getNextToken();
-        if(emptyToken(token))return;
-        if(token.getLexema().equals(".")){
-            remove();
-            Z();
-        }
-        Z();
-    }
+//    private void W(){
+//        Token token = getNextToken();
+//        if(emptyToken(token))return;
+//        if(token.getLexema().equals(".")){
+//            remove();
+//        }
+//        Z();
+//    }
     
     private void V(){
         Token token = getNextToken();
