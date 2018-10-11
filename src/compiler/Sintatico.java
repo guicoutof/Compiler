@@ -321,26 +321,26 @@ public class Sintatico {
             
         }else{
             O();
-            if(token.getLexema().equals(":")){
+            if(token.getLexema().equals(":=")){
                 remove();
-                token = getNextToken();
-                if(emptyToken(token))return;
-                if(token.getLexema().equals("=")){
-                    remove();
+                //token = getNextToken();
+                //if(emptyToken(token))return;
+               // if(token.getLexema().equals("=")){
+                //    remove();
                     P();
-                }else{
-                     msg.add("Erro, falta = proximo a linha "+token.getLinha());
-                     P();
-                }
+                //}else{
+                //     msg.add("Erro, falta = proximo a linha "+token.getLinha());
+                //     P();
+                //}
             }else{
-                 msg.add("Erro, falta : proximo a linha "+token.getLinha());
-                 if(token.getLexema().equals("=")){
-                    remove();
-                    P();
-                }else{
-                     msg.add("Erro, falta = proximo a linha "+token.getLinha());
+                 msg.add("Erro, falta := proximo a linha "+token.getLinha());
+                 //if(token.getLexema().equals("=")){
+                 //   remove();
+                 //   P();
+                //}else{
+                //     msg.add("Erro, falta = proximo a linha "+token.getLinha());
                      P();
-                }
+                //}
             }
         }
     }
@@ -400,6 +400,8 @@ public class Sintatico {
         if(token.getLexema().equals("(")){
             remove();
             P();
+            token = getNextToken();
+            if(emptyToken(token))return;
             if(token.getLexema().equals(")")){
                 remove();
             }else msg.add("Erro, falta ) proximo a linha "+token.getLinha());

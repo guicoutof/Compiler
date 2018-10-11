@@ -182,6 +182,27 @@ public class Lexico {
                     
                 }else
                     
+                //      COMENTARIO    
+                if(atual == '/'){
+                    char prox = SplitLanguage[i].charAt(j+1);
+                    if(prox == '/'){
+                        i++;
+                        j=0;//proxima linha
+                    }
+                }else
+                if(atual == '{'){
+                    char prox = SplitLanguage[i].charAt(j+1);
+                    while(prox != '}'){
+                        j++;
+                        if(j==(SplitLanguage[i].length()-1)){
+                            i++;
+                            j=0;
+                        }
+                        prox = SplitLanguage[i].charAt(j+1);
+                    }
+                    j++;
+                }else
+                
                 //          VERIFICA OPERADOR       */
                 if(atual == '+'){
                     Token token = new Token("+", "OPSOMA",i+1,j+1);
@@ -282,28 +303,9 @@ public class Lexico {
                 if(atual == '.'){
                     Token token = new Token(".", "FINAL",i+1,j+1);
                     tokens.add(token);
-                }else
-                    
-                //      COMENTARIO    
-                if(atual == '/'){
-                    char prox = SplitLanguage[i].charAt(j+1);
-                    if(prox == '/'){
-                        i++;
-                        j=0;//proxima linha
-                    }
-                }else
-                if(atual == '{'){
-                    char prox = SplitLanguage[i].charAt(j+1);
-                    while(prox != '}'){
-                        j++;
-                        if(j==(SplitLanguage[i].length()-1)){
-                            i++;
-                            j=0;
-                        }
-                        prox = SplitLanguage[i].charAt(j+1);
-                    }
-                    j++;
                 }
+                    
+                
                 
                 //          ERRO
                 else{
