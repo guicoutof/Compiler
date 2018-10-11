@@ -65,8 +65,6 @@ public class Lexico {
         keyWords.add(token);
         token = "char";
         keyWords.add(token);
-        token = "proc";
-        keyWords.add(token);
     }
     
     public boolean isNumber (char number) {
@@ -210,7 +208,7 @@ public class Lexico {
                         Token token = new Token(":=", "ATRIBUICAO",i+1,j+1);
                         tokens.add(token);
                     }else{
-                        Token token = new Token(":", "ALGUMA COISA",i+1,j+1);
+                        Token token = new Token(":", "DOIS PONTOS",i+1,j+1);
                         tokens.add(token);
                     }    
                 }else
@@ -270,8 +268,12 @@ public class Lexico {
                 }
                 else
                 if(atual == ','){
+                    Token token = new Token(",", "VIRGULA",i+1,j+1);
+                    tokens.add(token);
                 }else
                 if(atual == ';'){
+                    Token token = new Token(";", "PONTO VIRGULA",i+1,j+1);
+                    tokens.add(token);
                 }else
                 if(atual == '\n'){
                 }else
