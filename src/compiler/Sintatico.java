@@ -287,7 +287,7 @@ public class Sintatico {
             if(emptyToken(token))return;
             if(token.getLexema().equals("do")){
                 remove();
-            }else msg.add("Erro falta do");
+            }else msg.add("Erro, falta do proximo a linha "+token.getLinha());
             L();
             R();
         }else if(token.getLexema().equals("begin")){
@@ -298,7 +298,7 @@ public class Sintatico {
             if(emptyToken(token))return;
             if(token.getLexema().equals("end")){
                 remove();
-            }else msg.add("Erro falta end");
+            }else msg.add("Erro, falta end proximo a linha "+token.getLinha());
             R();
         }else{
             I();
