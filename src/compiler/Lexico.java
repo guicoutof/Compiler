@@ -154,7 +154,7 @@ public class Lexico {
                      word +=atual;
                     char prox = SplitLanguage[i].charAt(j+1);
                     count++;
-                    while((isLetter(prox) || isNumber(prox)) && j<SplitLanguage[i].length()-1){
+                    while((isLetter(prox) || isNumber(prox)) && j<SplitLanguage[i].length()-2){
                         word += prox;
                         j++;
                         prox = SplitLanguage[i].charAt(j+1);

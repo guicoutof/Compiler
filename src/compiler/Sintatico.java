@@ -15,6 +15,7 @@ public class Sintatico {
     private ArrayList<Token> tokens;
     private ArrayList<Token> fila;
     ArrayList<String> msg = new ArrayList();
+    ArrayList<Tabela> tabelas = new ArrayList();
 
     public Sintatico() {
     }
@@ -61,7 +62,10 @@ public class Sintatico {
     
     public void analisar(){
         Token token = getNextToken();
+        Tabela tabela = new Tabela("global");
+        tabelas.add(tabela);
         if(token.getLexema().equals("program")){
+            tabelas.get(0).inserir(new Simbolo(0,0,"program"));
             remove();
             I();
             token = getNextToken();
