@@ -43,13 +43,22 @@ public class Tabela {
         tabela.add(simbolo);
     }
     
-    public boolean buscar(Simbolo simbolo){
+    public boolean verificar(String token){
         for(Simbolo s: tabela) {
-            if(s.getToken().equals(simbolo.getToken())){
+            if(s.getToken().equals(token)){
                 return true;
             }
         }
         return false;        
+    }
+    
+    public Simbolo buscar(String token){
+        for(Simbolo s: tabela) {
+            if(s.getToken().equals(token)){
+                return s;
+            }
+        }
+        return null;        
     }
     
        
@@ -59,5 +68,10 @@ public class Tabela {
                 tabela.remove(s);
             }
         }      
+    }
+    public void declararTipo(String tipo){
+        for(Simbolo s: tabela){
+            if(s.getTipo() == null)s.setTipo(tipo);
+        }
     }
 }

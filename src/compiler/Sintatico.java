@@ -16,6 +16,8 @@ public class Sintatico {
     private ArrayList<Token> fila;
     ArrayList<String> msg = new ArrayList();
     ArrayList<Tabela> tabelas = new ArrayList();
+    private int countTabela = 0;
+    private String auxIdentificador;
 
     public Sintatico() {
     }
@@ -65,7 +67,7 @@ public class Sintatico {
         Tabela tabela = new Tabela("global");
         tabelas.add(tabela);
         if(token.getLexema().equals("program")){
-            tabelas.get(0).inserir(new Simbolo(0,0,"program"));
+            tabelas.get(0).inserir(new Simbolo("program","",0));
             remove();
             I();
             token = getNextToken();
@@ -98,6 +100,7 @@ public class Sintatico {
         Token token = getNextToken();
         if(emptyToken(token))return;
         if(token.getToken().equals("IDENTIFICADOR")){
+            auxIdentificador = token.getLexema();
             remove();
             return;
         }
@@ -137,6 +140,11 @@ public class Sintatico {
         if(token.getLexema().equals(",")){
             remove();
             I();
+            if(!tabelas.get(0).verificar(auxIdentificador)){
+                if(!tabelas.get(0).verificar(auxIdentificador)){
+                    tabelas.get(countTabela).inserir(new Simbolo(auxIdentificador,"",0));
+                }else msg.add("Variavel "+auxIdentificador+" ja declarada");
+            }msg.add("Variavel Global "+auxIdentificador+" ja declarada");
             E();
         }//tratar erro
     }
@@ -146,6 +154,10 @@ public class Sintatico {
         if(emptyToken(token))return;
         if(token.getLexema().equals("procedure")){
             remove();
+            token = getNextToken();
+            Tabela tabela = new Tabela(token.getLexema());
+            tabelas.add(tabela);
+            countTabela++;
             I();
             F();
             token = getNextToken();
@@ -200,6 +212,11 @@ public class Sintatico {
         if(token.getLexema().equals("var")){
             remove();
                 I();
+                if(!tabelas.get(0).verificar(auxIdentificador)){
+                    if(!tabelas.get(0).verificar(auxIdentificador)){
+                        tabelas.get(countTabela).inserir(new Simbolo(auxIdentificador,"",0));
+                    }else msg.add("Variavel "+auxIdentificador+" ja declarada");
+                }msg.add("Variavel Global "+auxIdentificador+" ja declarada");
                 E();
                 token = getNextToken();
                 if(emptyToken(token))return;
@@ -234,6 +251,7 @@ public class Sintatico {
         Token token = getNextToken();
         if(emptyToken(token))return;
         if(token.getLexema().equals("int")||token.getLexema().equals("real")||token.getLexema().equals("boolean")||token.getLexema().equals("char")){
+            tabelas.get(countTabela).declararTipo(token.getLexema());
             remove();
         }else{
             msg.add("Erro, falta declarar tipo proximo a linha "+token.getLinha());
@@ -326,6 +344,11 @@ public class Sintatico {
         }else{
             O();
             if(token.getLexema().equals(":=")){
+                Simbolo s = tabelas.get(countTabela).buscar(auxIdentificador);
+                if(s!=null){
+                    s.setValor(token.getLexema());
+                    s.setUtilizada(1);
+                }System.out.println("Simbolo nao encontrado");
                 remove();
                 //token = getNextToken();
                 //if(emptyToken(token))return;
@@ -338,6 +361,11 @@ public class Sintatico {
                 //}
             }else{
                  msg.add("Erro, falta := proximo a linha "+token.getLinha());
+                 Simbolo s = tabelas.get(countTabela).buscar(auxIdentificador);
+                if(s!=null){
+                    s.setValor(token.getLexema());
+                    s.setUtilizada(1);
+                }System.out.println("Simbolo nao encontrado");
                  //if(token.getLexema().equals("=")){
                  //   remove();
                  //   P();

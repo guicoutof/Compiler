@@ -10,20 +10,30 @@ package compiler;
  * @author kuca
  */
 public class Simbolo {
-    
-    private int valor;
+    private String valor;
     private int utilizada;
     private String token;
+    private String tipo = null;
 
     public Simbolo() {
     }
 
-    public Simbolo(int valor, int utilizada, String token) {
+    public Simbolo(String token, String valor, int utilizada) {
         this.valor = valor;
         this.utilizada = utilizada;
         this.token = token;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    
+    
     public void setToken(String token) {
         this.token = token;
     }
@@ -32,7 +42,7 @@ public class Simbolo {
         this.utilizada = utilizada;
     }
 
-    public void setValor(int valor) {
+    public void setValor(String valor) {
         this.valor = valor;
     }
 
@@ -44,7 +54,7 @@ public class Simbolo {
         return utilizada;
     }
 
-    public int getValor() {
+    public String getValor() {
         return valor;
     }
     
