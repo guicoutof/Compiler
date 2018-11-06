@@ -58,6 +58,13 @@ public class Simbolo {
         return valor;
     }
     
+    public boolean verificaInteiro(){
+        if(tipo.equals("inteiro")){
+            float x = Float.parseFloat(tipo)-Integer.parseInt(tipo);
+            if(x!=0f)return false;
+        }
+        return true;
+    }
      
      
 }

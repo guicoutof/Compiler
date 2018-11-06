@@ -74,4 +74,12 @@ public class Tabela {
             if(s.getTipo() == null)s.setTipo(tipo);
         }
     }
+    
+//    public void verificaInteiro(){
+//        for(Simbolo s: tabela){
+//            if(s.getTipo().equals("INTEIRO")){
+//                
+//            }
+//        }
+//    }
 }

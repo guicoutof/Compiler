@@ -213,7 +213,7 @@ public class Sintatico {
             remove();
                 I();
                 if(!tabelas.get(0).verificar(auxIdentificador)){
-                    if(!tabelas.get(0).verificar(auxIdentificador)){
+                    if(!tabelas.get(countTabela).verificar(auxIdentificador)){
                         tabelas.get(countTabela).inserir(new Simbolo(auxIdentificador,"",0));
                     }else msg.add("Variavel "+auxIdentificador+" ja declarada");
                 }msg.add("Variavel Global "+auxIdentificador+" ja declarada");
@@ -348,7 +348,11 @@ public class Sintatico {
                 if(s!=null){
                     s.setValor(token.getLexema());
                     s.setUtilizada(1);
+                    if(!s.verificaInteiro()){
+                        msg.add("Variavel "+auxIdentificador+" Inteiro proximo a linha "+token.getLinha()+" contem valor Real");
+                    }
                 }System.out.println("Simbolo nao encontrado");
+                msg.add("Variavel "+auxIdentificador+" proximo a linha +"+token.getLinha()+ " nao declarada ");
                 remove();
                 //token = getNextToken();
                 //if(emptyToken(token))return;
@@ -366,6 +370,7 @@ public class Sintatico {
                     s.setValor(token.getLexema());
                     s.setUtilizada(1);
                 }System.out.println("Simbolo nao encontrado");
+                msg.add("Variavel "+auxIdentificador+" proximo a linha +"+token.getLinha()+ " nao declarada ");
                  //if(token.getLexema().equals("=")){
                  //   remove();
                  //   P();
@@ -456,6 +461,8 @@ public class Sintatico {
             PP();
         }else{ if(token.getToken().equals("IDENTIFICADOR")){
             I();//gambiarra
+            if(!tabelas.get(countTabela).verificar(auxIdentificador))
+                msg.add("Variavel "+auxIdentificador+" proximo a linha "+token.getLinha()+" nao declarada");
             O();
             V();
             X();
