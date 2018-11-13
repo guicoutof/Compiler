@@ -65,6 +65,10 @@ public class Lexico {
         keyWords.add(token);
         token = "char";
         keyWords.add(token);
+        token = "true";
+        keyWords.add(token);
+        token = "false";
+        keyWords.add(token);
     }
     
     public boolean isNumber (char number) {

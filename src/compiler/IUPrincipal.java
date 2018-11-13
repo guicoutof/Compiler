@@ -55,7 +55,7 @@ public class IUPrincipal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Analise Lexica Calculadora");
+        setTitle("Compilador");
 
         jLabel1.setText("Linguagem");
 

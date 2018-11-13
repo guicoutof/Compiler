@@ -45,7 +45,7 @@ public class Tabela {
     
     public boolean verificar(String token){
         for(Simbolo s: tabela) {
-            if(s.getToken().equals(token)){
+            if(s.getLexema().equals(token)){
                 return true;
             }
         }
@@ -54,7 +54,7 @@ public class Tabela {
     
     public Simbolo buscar(String token){
         for(Simbolo s: tabela) {
-            if(s.getToken().equals(token)){
+            if(s.getLexema().equals(token)){
                 return s;
             }
         }
@@ -64,7 +64,7 @@ public class Tabela {
        
     public void remover(Simbolo simbolo){
         for(Simbolo s: tabela) {
-            if(s.getToken().equals(simbolo.getToken())){
+            if(s.getLexema().equals(simbolo.getLexema())){
                 tabela.remove(s);
             }
         }      
@@ -73,6 +73,17 @@ public class Tabela {
         for(Simbolo s: tabela){
             if(s.getTipo() == null)s.setTipo(tipo);
         }
+    }
+    
+    public Simbolo atribuir(String token,String valor){
+        for(Simbolo s: tabela) {
+            if(s.getLexema().equals(token)){
+                s.setValor(valor);
+                s.setUtilizada(1);
+                return s;
+            }
+        }
+        return null;        
     }
     
 //    public void verificaInteiro(){

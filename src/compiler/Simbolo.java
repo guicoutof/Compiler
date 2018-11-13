@@ -12,16 +12,16 @@ package compiler;
 public class Simbolo {
     private String valor;
     private int utilizada;
-    private String token;
+    private String lexema;
     private String tipo = null;
 
     public Simbolo() {
     }
 
-    public Simbolo(String token, String valor, int utilizada) {
+    public Simbolo(String lexema, String valor, int utilizada) {
         this.valor = valor;
         this.utilizada = utilizada;
-        this.token = token;
+        this.lexema = lexema;
     }
 
     public String getTipo() {
@@ -34,8 +34,8 @@ public class Simbolo {
 
     
     
-    public void setToken(String token) {
-        this.token = token;
+    public void setLexema(String token) {
+        this.lexema = token;
     }
 
     public void setUtilizada(int utilizada) {
@@ -46,8 +46,8 @@ public class Simbolo {
         this.valor = valor;
     }
 
-    public String getToken() {
-        return token;
+    public String getLexema() {
+        return lexema;
     }
 
     public int getUtilizada() {
@@ -59,8 +59,8 @@ public class Simbolo {
     }
     
     public boolean verificaInteiro(){
-        if(tipo.equals("inteiro")){
-            float x = Float.parseFloat(tipo)-Integer.parseInt(tipo);
+        if(tipo.equals("int")){
+            float x = Float.parseFloat(valor)-Integer.parseInt(valor);
             if(x!=0f)return false;
         }
         return true;
